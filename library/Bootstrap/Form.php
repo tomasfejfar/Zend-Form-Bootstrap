@@ -1,7 +1,7 @@
 <?php
 class Bootstrap_Form extends Zend_Form
 {
-    private $_customDecorators = array();
+    protected $_customDecorators = array();
     public $formDecorators = array('formElements' , array('htmlTag' , array('tag' => 'div' , 'class' => 'group')) ,
         array('Form' , array('class' => 'nice'),));
     public $oneLineFormDecorators = array('formElements' , array('htmlTag' , array('tag' => 'div' , 'class' => 'one-line-group')),array('FormErrors',array('placement'=>'append')) ,
