@@ -1,4 +1,4 @@
-<?php 
+<?php
 class Bootstrap_Form_Decorator_Checkbox extends Zend_Form_Decorator_ViewHelper
 {
 	public function render($content)
@@ -26,7 +26,9 @@ class Bootstrap_Form_Decorator_Checkbox extends Zend_Form_Decorator_ViewHelper
         if (method_exists($helperObject, 'setTranslator')) {
             $helperObject->setTranslator($element->getTranslator());
         }
-        $attribs['label_class'] = 'checkbox'; 
+        if (!isset($attribs['label_class'])) {
+            $attribs['label_class'] = 'checkbox';
+        }
         $elementContent = $view->$helper($name, $value, $attribs, $element->options);
         switch ($this->getPlacement()) {
             case self::APPEND:
@@ -36,5 +38,5 @@ class Bootstrap_Form_Decorator_Checkbox extends Zend_Form_Decorator_ViewHelper
             default:
                 return $elementContent;
         }
-    } 
+    }
 }
