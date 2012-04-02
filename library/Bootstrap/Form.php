@@ -16,6 +16,7 @@ class Bootstrap_Form extends Zend_Form
 
     );
     public $elementDecorators = array();
+    public $fileDecorators = array();
     public $checkboxDecorators = array();
     public $multiDecoratorsRadio = array();
     public $multiDecoratorsCheckbox = array();
@@ -34,6 +35,14 @@ class Bootstrap_Form extends Zend_Form
             array('Description', array('placement' => 'append', 'tag' => 'div', 'class' => 'help-block', 'escape' => false)),
             array(array('controls' => 'htmlTag'), array('tag' => 'div', 'class' => 'controls')),
             array('Label', array('placement' => 'preppend', 'class' => 'control-label')),
+            array(new Bootstrap_Form_Decorator_ControlGroup()),
+        );
+        $this->fileDecorators = array(
+            'File',
+            array('Description', array('placement' => 'append', 'tag' => 'div', 'class' => 'help-block', 'escape' => false)),
+            array('Errors', array('tag' => 'span', 'class' => 'help-block')),
+            array(array('controls' => 'htmlTag'), array('tag' => 'div', 'class' => 'controls')),
+            array('Label', $labelOptions),
             array(new Bootstrap_Form_Decorator_ControlGroup()),
         );
         $this->multiDecoratorsRadio = array(
@@ -106,6 +115,9 @@ class Bootstrap_Form extends Zend_Form
                     break;
                 case 'formCheckbox':
                     $el->setDecorators($this->checkboxDecorators);
+                    break;
+                case 'formFile':
+                    $el->setDecorators($this->fileDecorators);
                     break;
 
                 default:
