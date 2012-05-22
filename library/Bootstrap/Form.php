@@ -30,8 +30,12 @@ class Bootstrap_Form extends Zend_Form
     {
         $this->setAttrib('class', 'form-horizontal');
 
-        // setup default form decorators
+        $this->initDefaultDecorators();
 
+        parent::__construct($options);
+    }
+
+    public function initDefaultDecorators() {
         $this->_elementDecorators = array(
             'viewHelper',
             array('Errors', array('tag' => 'span', 'class' => 'help-inline')),
@@ -90,13 +94,12 @@ class Bootstrap_Form extends Zend_Form
             'FormElements',
             array('htmlTag', array('class' => 'form-actions')),
         );
-
-        parent::__construct($options);
     }
 
     public function loadDefaultDecorators()
     {
         parent::loadDefaultDecorators();
+
         $this->setElementDefaultDecorators();
     }
 
