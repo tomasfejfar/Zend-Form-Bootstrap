@@ -3,7 +3,7 @@ class Bootstrap_Form extends Zend_Form
 {
     protected $_customDecorators = array();
 
-    protected $_elementDecorators = array();
+    protected $_defaultElementDecorators = array();
     protected $_checkboxDecorators = array();
     protected $_buttonDecorators = array();
     protected $_fileDecorators = array();
@@ -36,7 +36,7 @@ class Bootstrap_Form extends Zend_Form
     }
 
     public function initDefaultDecorators() {
-        $this->_elementDecorators = array(
+        $this->_defaultElementDecorators = array(
             'viewHelper',
             array('Errors', array('tag' => 'span', 'class' => 'help-inline')),
             array('Description', array('placement' => 'append', 'tag' => 'div', 'class' => 'help-block', 'escape' => false)),
@@ -132,7 +132,7 @@ class Bootstrap_Form extends Zend_Form
                     break;
 
                 default:
-                    $el->setDecorators($this->getElementDecorators());
+                    $el->setDecorators($this->getDefaultElementDecorators());
                     break;
             }
         }
@@ -146,39 +146,76 @@ class Bootstrap_Form extends Zend_Form
         }
     }
 
+    public function setCustomDecorators($customDecorators) {
+        $this->_customDecorators = $customDecorators;
+    }
+
     public function getCustomDecorators() {
         return unserialize(serialize($this->_customDecorators));
     }
 
-    public function getElementDecorators() {
-        return unserialize(serialize($this->_elementDecorators));
+    public function setDefaultElementDecorators($defaultElementDecorators) {
+        $this->_defaultElementDecorators = $defaultElementDecorators;
+    }
+
+    public function getDefaultElementDecorators() {
+        return unserialize(serialize($this->_defaultElementDecorators));
+    }
+
+    public function setCheckboxDecorators($checkboxDecorators) {
+        $this->_checkboxDecorators = $checkboxDecorators;
     }
 
     public function getCheckboxDecorators() {
         return unserialize(serialize($this->_checkboxDecorators));
     }
 
+    public function setButtonDecorators($buttonDecorators) {
+        $this->_buttonDecorators = $buttonDecorators;
+    }
+
     public function getButtonDecorators() {
         return unserialize(serialize($this->_buttonDecorators));
+    }
+
+    public function setFileDecorators($fileDecorators) {
+        $this->_fileDecorators = $fileDecorators;
     }
 
     public function getFileDecorators() {
         return unserialize(serialize($this->_fileDecorators));
     }
 
+    public function setMultiDecoratorsRadio($multiDecoratorsRadio) {
+        $this->_multiDecoratorsRadio = $multiDecoratorsRadio;
+    }
+
     public function getMultiDecoratorsRadio() {
         return unserialize(serialize($this->_multiDecoratorsRadio));
+    }
+
+    public function setMultiDecoratorsCheckbox($multiDecoratorsCheckbox) {
+        $this->_multiDecoratorsCheckbox = $multiDecoratorsCheckbox;
     }
 
     public function getMultiDecoratorsCheckbox() {
         return unserialize(serialize($this->_multiDecoratorsCheckbox));
     }
 
+    public function setGroupDecorators($groupDecorators) {
+        $this->_groupDecorators = $groupDecorators;
+    }
+
     public function getGroupDecorators() {
         return unserialize(serialize($this->_groupDecorators));
+    }
+
+    public function setSubmitGroupDecorators($submitGroupDecorators) {
+        $this->_submitGroupDecorators = $submitGroupDecorators;
     }
 
     public function getSubmitGroupDecorators() {
         return unserialize(serialize($this->_submitGroupDecorators));
     }
+
 }
