@@ -2,6 +2,16 @@
 class Bootstrap_Form extends Zend_Form
 {
     protected $_customDecorators = array();
+
+    protected $_elementDecorators = array();
+    protected $_checkboxDecorators = array();
+    protected $_buttonDecorators = array();
+    protected $_fileDecorators = array();
+    protected $_multiDecoratorsRadio = array();
+    protected $_multiDecoratorsCheckbox = array();
+    protected $_groupDecorators = array();
+    protected $_submitGroupDecorators = array();
+
     public $formDecorators = array('formElements' , array('htmlTag' , array('tag' => 'div' , 'class' => 'group')) ,
         array('Form' , array('class' => 'nice'),));
     public $oneLineFormDecorators = array('formElements' , array('htmlTag' , array('tag' => 'div' , 'class' => 'one-line-group')),array('FormErrors',array('placement'=>'append')) ,
@@ -15,21 +25,14 @@ class Bootstrap_Form extends Zend_Form
         array('htmlTag',array('tag'=>'span','class'=>'button')),
 
     );
-    public $elementDecorators = array();
-    public $fileDecorators = array();
-    public $checkboxDecorators = array();
-    public $multiDecoratorsRadio = array();
-    public $multiDecoratorsCheckbox = array();
-    public $buttonDecorators = array();
-    public $groupDecorators = array();
-    public $submitGroupDecorators = array();
 
     public function __construct($options = null)
     {
         $this->setAttrib('class', 'form-horizontal');
-        $this->buttonDecorators = array('viewHelper');
-        $this->groupDecorators = array('formElements', new Bootstrap_Form_Decorator_AutoFieldset());
-        $this->elementDecorators = array(
+
+        // setup default form decorators
+
+        $this->_elementDecorators = array(
             'viewHelper',
             array('Errors', array('tag' => 'span', 'class' => 'help-inline')),
             array('Description', array('placement' => 'append', 'tag' => 'div', 'class' => 'help-block', 'escape' => false)),
@@ -37,7 +40,21 @@ class Bootstrap_Form extends Zend_Form
             array('Label', array('placement' => 'preppend', 'class' => 'control-label')),
             array(new Bootstrap_Form_Decorator_ControlGroup()),
         );
-        $this->fileDecorators = array(
+
+        $this->_checkboxDecorators = array(
+            'viewHelper',
+            array(new Bootstrap_Form_Decorator_CheckboxLabel(array('class' => 'checkbox'))),
+            array('Description', array('placement' => 'append', 'tag' => 'div', 'class' => 'help-block', 'escape' => false)),
+            array('Errors', array('tag' => 'span', 'class' => 'help-block')),
+            array(array('controls' => 'htmlTag'), array('tag' => 'div', 'class' => 'controls')),
+            array(new Bootstrap_Form_Decorator_ControlGroup()),
+        );
+
+        $this->_buttonDecorators = array(
+            'viewHelper',
+        );
+
+        $this->_fileDecorators = array(
             'File',
             array('Description', array('placement' => 'append', 'tag' => 'div', 'class' => 'help-block', 'escape' => false)),
             array('Errors', array('tag' => 'span', 'class' => 'help-block')),
@@ -45,7 +62,8 @@ class Bootstrap_Form extends Zend_Form
             array('Label', $labelOptions),
             array(new Bootstrap_Form_Decorator_ControlGroup()),
         );
-        $this->multiDecoratorsRadio = array(
+
+        $this->_multiDecoratorsRadio = array(
             array(new Bootstrap_Form_Decorator_Radio()),
             array('Errors', array('tag' => 'span', 'class' => 'help-inline')),
             array('Description', array('placement' => 'append', 'tag' => 'div', 'class' => 'help-block', 'escape' => false)),
@@ -54,7 +72,7 @@ class Bootstrap_Form extends Zend_Form
             array(new Bootstrap_Form_Decorator_ControlGroup()),
         );
 
-        $this->multiDecoratorsCheckbox = array(
+        $this->_multiDecoratorsCheckbox = array(
             array(new Bootstrap_Form_Decorator_Checkbox()),
             array('Errors', array('tag' => 'span', 'class' => 'help-inline')),
             array('Description', array('placement' => 'append', 'tag' => 'div', 'class' => 'help-block', 'escape' => false)),
@@ -63,22 +81,12 @@ class Bootstrap_Form extends Zend_Form
             array(new Bootstrap_Form_Decorator_ControlGroup()),
         );
 
-        $this->checkboxDecorators = array(
-            'viewHelper',
-            array(new Bootstrap_Form_Decorator_CheckboxLabel(array('class' => 'checkbox'))),
-            array('Errors', array('tag' => 'span', 'class' => 'help-inline')),
-            array('Description', array('placement' => 'append', 'tag' => 'div', 'class' => 'help-block', 'escape' => false)),
-            array(array('controls' => 'htmlTag'), array('tag' => 'div', 'class' => 'controls')),
-
-            array(new Bootstrap_Form_Decorator_ControlGroup()),
-        );
-
-        $this->groupDecorators = array(
+        $this->_groupDecorators = array(
             'FormElements',
-            'Fieldset',
+            'Fieldset', // new Bootstrap_Form_Decorator_AutoFieldset(),
         );
 
-        $this->submitGroupDecorators = array(
+        $this->_submitGroupDecorators = array(
             'FormElements',
             array('htmlTag', array('class' => 'form-actions')),
         );
@@ -105,38 +113,69 @@ class Bootstrap_Form extends Zend_Form
             switch ($el->helper) {
                 case 'formSubmit':
                 case 'formReset':
-                    $el->setDecorators($this->buttonDecorators);
+                    $el->setDecorators($this->getButtonDecorators());
                     break;
                 case 'formRadio':
-                    $el->setDecorators($this->multiDecoratorsRadio);
+                    $el->setDecorators($this->getMultiDecoratorsRadio());
                     break;
                 case 'formMultiCheckbox':
-                    $el->setDecorators($this->multiDecoratorsCheckbox);
+                    $el->setDecorators($this->getMultiDecoratorsCheckbox());
                     break;
                 case 'formCheckbox':
-                    $el->setDecorators($this->checkboxDecorators);
+                    $el->setDecorators($this->getCheckboxDecorators());
                     break;
                 case 'formFile':
-                    $el->setDecorators($this->fileDecorators);
+                    $el->setDecorators($this->getFileDecorators());
                     break;
 
                 default:
-                    $el->setDecorators($this->elementDecorators);
+                    $el->setDecorators($this->getElementDecorators());
                     break;
             }
         }
         foreach ($this->getDisplayGroups() as $group) {
 
             if (strpos($group->getName(), 'submit_') === 0) {
-                $group->setDecorators($this->submitGroupDecorators);
+                $group->setDecorators($this->getSubmitGroupDecorators());
                 continue;
             }
-            $group->setDecorators($this->groupDecorators);
+            $group->setDecorators($this->getGroupDecorators());
         }
     }
 
-    public function getCustomDecorators()
-    {
+    public function getCustomDecorators() {
         return $this->_customDecorators;
+    }
+
+    public function getElementDecorators() {
+        return $this->_elementDecorators;
+    }
+
+    public function getCheckboxDecorators() {
+        return $this->_checkboxDecorators;
+    }
+
+    public function getButtonDecorators() {
+        return $this->_buttonDecorators;
+    }
+
+    public function getFileDecorators() {
+        return $this->_fileDecorators;
+    }
+
+    public function getMultiDecoratorsRadio() {
+        return $this->_multiDecoratorsRadio;
+    }
+
+    public function getMultiDecoratorsCheckbox() {
+        return $this->_multiDecoratorsCheckbox;
+    }
+
+    public function getGroupDecorators() {
+        return $this->_groupDecorators;
+    }
+
+    public function getSubmitGroupDecorators() {
+        return $this->_submitGroupDecorators;
     }
 }
