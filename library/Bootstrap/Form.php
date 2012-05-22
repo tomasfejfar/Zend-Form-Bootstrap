@@ -63,7 +63,7 @@ class Bootstrap_Form extends Zend_Form
             array('Description', array('placement' => 'append', 'tag' => 'div', 'class' => 'help-block', 'escape' => false)),
             array('Errors', array('tag' => 'span', 'class' => 'help-block')),
             array(array('controls' => 'htmlTag'), array('tag' => 'div', 'class' => 'controls')),
-            array('Label', $labelOptions),
+            array('Label', array('class' => 'control-label')),
             array(new Bootstrap_Form_Decorator_ControlGroup()),
         );
 
