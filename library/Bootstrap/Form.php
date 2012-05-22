@@ -144,38 +144,38 @@ class Bootstrap_Form extends Zend_Form
     }
 
     public function getCustomDecorators() {
-        return $this->_customDecorators;
+        return unserialize(serialize($this->_customDecorators));
     }
 
     public function getElementDecorators() {
-        return $this->_elementDecorators;
+        return unserialize(serialize($this->_elementDecorators));
     }
 
     public function getCheckboxDecorators() {
-        return $this->_checkboxDecorators;
+        return unserialize(serialize($this->_checkboxDecorators));
     }
 
     public function getButtonDecorators() {
-        return $this->_buttonDecorators;
+        return unserialize(serialize($this->_buttonDecorators));
     }
 
     public function getFileDecorators() {
-        return $this->_fileDecorators;
+        return unserialize(serialize($this->_fileDecorators));
     }
 
     public function getMultiDecoratorsRadio() {
-        return $this->_multiDecoratorsRadio;
+        return unserialize(serialize($this->_multiDecoratorsRadio));
     }
 
     public function getMultiDecoratorsCheckbox() {
-        return $this->_multiDecoratorsCheckbox;
+        return unserialize(serialize($this->_multiDecoratorsCheckbox));
     }
 
     public function getGroupDecorators() {
-        return $this->_groupDecorators;
+        return unserialize(serialize($this->_groupDecorators));
     }
 
     public function getSubmitGroupDecorators() {
-        return $this->_submitGroupDecorators;
+        return unserialize(serialize($this->_submitGroupDecorators));
     }
 }
