@@ -38,10 +38,10 @@ class Bootstrap_Form extends Zend_Form
     public function initDefaultDecorators() {
         $this->_defaultElementDecorators = array(
             'viewHelper',
-            array('Errors', array('class' => 'help-inline')),
             array('Description', array('placement' => 'append', 'tag' => 'div', 'class' => 'help-block', 'escape' => false)),
+            array('Errors', array('class' => 'help-block')),
             array(array('controls' => 'htmlTag'), array('tag' => 'div', 'class' => 'controls')),
-            array('Label', array('placement' => 'preppend', 'class' => 'control-label')),
+            array('Label', array('placement' => 'prepend', 'class' => 'control-label')),
             array(new Bootstrap_Form_Decorator_ControlGroup()),
         );
 
@@ -69,8 +69,8 @@ class Bootstrap_Form extends Zend_Form
 
         $this->_multiDecoratorsRadio = array(
             array(new Bootstrap_Form_Decorator_Radio()),
-            array('Errors', array('class' => 'help-inline')),
             array('Description', array('placement' => 'append', 'tag' => 'div', 'class' => 'help-block', 'escape' => false)),
+            array('Errors', array('class' => 'help-block')),
             array(array('controls' => 'htmlTag'), array('tag' => 'div', 'class' => 'controls')),
             array('Label', array('class' => 'control-label')),
             array(new Bootstrap_Form_Decorator_ControlGroup()),
@@ -78,8 +78,8 @@ class Bootstrap_Form extends Zend_Form
 
         $this->_multiDecoratorsCheckbox = array(
             array(new Bootstrap_Form_Decorator_Checkbox()),
-            array('Errors', array('class' => 'help-inline')),
             array('Description', array('placement' => 'append', 'tag' => 'div', 'class' => 'help-block', 'escape' => false)),
+            array('Errors', array('class' => 'help-block')),
             array(array('controls' => 'htmlTag'), array('tag' => 'div', 'class' => 'controls')),
             array('Label', array('class' => 'control-label')),
             array(new Bootstrap_Form_Decorator_ControlGroup()),
