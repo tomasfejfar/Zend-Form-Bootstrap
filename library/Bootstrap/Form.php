@@ -12,6 +12,8 @@ class Bootstrap_Form extends Zend_Form
     protected $_groupDecorators = array();
     protected $_submitGroupDecorators = array();
 
+    protected $_requiredSuffix;
+
     public $formDecorators = array('formElements' , array('htmlTag' , array('tag' => 'div' , 'class' => 'group')) ,
         array('Form' , array('class' => 'nice'),));
     public $oneLineFormDecorators = array('formElements' , array('htmlTag' , array('tag' => 'div' , 'class' => 'one-line-group')),array('FormErrors',array('placement'=>'append')) ,
@@ -217,5 +219,15 @@ class Bootstrap_Form extends Zend_Form
     public function getSubmitGroupDecorators() {
         return unserialize(serialize($this->_submitGroupDecorators));
     }
+
+    public function getRequiredSuffix() {
+        return $this->_requiredSuffix;
+    }
+
+    public function setRequiredSuffix($requiredSuffix) {
+        $this->_requiredSuffix = $requiredSuffix;
+    }
+
+
 
 }
