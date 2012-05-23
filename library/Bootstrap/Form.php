@@ -57,7 +57,7 @@ class Bootstrap_Form extends Zend_Form
 
         $this->_checkboxDecorators = array(
             'viewHelper',
-            array(new Bootstrap_Form_Decorator_CheckboxLabel(array('class' => 'checkbox'))),
+            array(new Bootstrap_Form_Decorator_CheckboxLabel(array('class' => 'checkbox') + $labelOptions)),
             array('Description', array('placement' => 'append', 'tag' => 'div', 'class' => 'help-block', 'escape' => false)),
             array('Errors', array('class' => 'help-block')),
             array(array('controls' => 'htmlTag'), array('tag' => 'div', 'class' => 'controls')),
