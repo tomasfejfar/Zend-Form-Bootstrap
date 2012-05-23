@@ -38,12 +38,20 @@ class Bootstrap_Form extends Zend_Form
     }
 
     public function initDefaultDecorators() {
+
+        $labelOptions = array();
+
+        if ($this->_getRequiredSuffix()) {
+            $labelOptions['requiredSuffix'] = $this->_getRequiredSuffix();
+            $labelOptions['escape'] = false;
+        }
+
         $this->_defaultElementDecorators = array(
             'viewHelper',
             array('Description', array('placement' => 'append', 'tag' => 'div', 'class' => 'help-block', 'escape' => false)),
             array('Errors', array('class' => 'help-block')),
             array(array('controls' => 'htmlTag'), array('tag' => 'div', 'class' => 'controls')),
-            array('Label', array('placement' => 'prepend', 'class' => 'control-label')),
+            array('Label', array('placement' => 'prepend', 'class' => 'control-label') + $labelOptions),
             array(new Bootstrap_Form_Decorator_ControlGroup()),
         );
 
@@ -65,7 +73,7 @@ class Bootstrap_Form extends Zend_Form
             array('Description', array('placement' => 'append', 'tag' => 'div', 'class' => 'help-block', 'escape' => false)),
             array('Errors', array('class' => 'help-block')),
             array(array('controls' => 'htmlTag'), array('tag' => 'div', 'class' => 'controls')),
-            array('Label', array('class' => 'control-label')),
+            array('Label', array('class' => 'control-label') + $labelOptions),
             array(new Bootstrap_Form_Decorator_ControlGroup()),
         );
 
@@ -74,7 +82,7 @@ class Bootstrap_Form extends Zend_Form
             array('Description', array('placement' => 'append', 'tag' => 'div', 'class' => 'help-block', 'escape' => false)),
             array('Errors', array('class' => 'help-block')),
             array(array('controls' => 'htmlTag'), array('tag' => 'div', 'class' => 'controls')),
-            array('Label', array('class' => 'control-label')),
+            array('Label', array('class' => 'control-label') + $labelOptions),
             array(new Bootstrap_Form_Decorator_ControlGroup()),
         );
 
@@ -83,7 +91,7 @@ class Bootstrap_Form extends Zend_Form
             array('Description', array('placement' => 'append', 'tag' => 'div', 'class' => 'help-block', 'escape' => false)),
             array('Errors', array('class' => 'help-block')),
             array(array('controls' => 'htmlTag'), array('tag' => 'div', 'class' => 'controls')),
-            array('Label', array('class' => 'control-label')),
+            array('Label', array('class' => 'control-label') + $labelOptions),
             array(new Bootstrap_Form_Decorator_ControlGroup()),
         );
 
@@ -220,11 +228,11 @@ class Bootstrap_Form extends Zend_Form
         return unserialize(serialize($this->_submitGroupDecorators));
     }
 
-    public function getRequiredSuffix() {
+    protected function _getRequiredSuffix() {
         return $this->_requiredSuffix;
     }
 
-    public function setRequiredSuffix($requiredSuffix) {
+    protected function _setRequiredSuffix($requiredSuffix) {
         $this->_requiredSuffix = $requiredSuffix;
     }
 
