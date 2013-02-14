@@ -6,11 +6,13 @@ class Bootstrap_Form extends Zend_Form
     protected $_defaultElementDecorators = array();
     protected $_checkboxDecorators = array();
     protected $_buttonDecorators = array();
+    protected $_submitDecorators = array();
     protected $_fileDecorators = array();
     protected $_multiDecoratorsRadio = array();
     protected $_multiDecoratorsCheckbox = array();
     protected $_groupDecorators = array();
     protected $_submitGroupDecorators = array();
+    protected $_formDecorators = array();
 
     protected $_requiredSuffix;
 
@@ -37,8 +39,8 @@ class Bootstrap_Form extends Zend_Form
         parent::__construct($options);
     }
 
-    public function initDefaultDecorators() {
-
+    public function initDefaultDecorators()
+    {
         $labelOptions = array();
 
         if ($this->_getRequiredSuffix()) {
@@ -63,9 +65,15 @@ class Bootstrap_Form extends Zend_Form
             array(array('controls' => 'htmlTag'), array('tag' => 'div', 'class' => 'controls')),
             array(new Bootstrap_Form_Decorator_ControlGroup()),
         );
+        
+        $this->_submitDecorators = array(
+            'viewHelper',
+        );
 
         $this->_buttonDecorators = array(
             'viewHelper',
+            array(array('controls' => 'htmlTag'), array('tag' => 'div', 'class' => 'controls')),
+            array(new Bootstrap_Form_Decorator_ControlGroup()),
         );
 
         $this->_fileDecorators = array(
@@ -99,6 +107,11 @@ class Bootstrap_Form extends Zend_Form
             'FormElements',
             'Fieldset', // new Bootstrap_Form_Decorator_AutoFieldset(),
         );
+        $this->_formDecorators = array(
+            'FormElements',
+            'Fieldset',
+            'Form',
+        );
 
         $this->_submitGroupDecorators = array(
             'FormElements',
@@ -110,6 +123,8 @@ class Bootstrap_Form extends Zend_Form
     {
         parent::loadDefaultDecorators();
 
+        $this->setDecorators($this->getFormDecorators());
+        
         $this->setElementDefaultDecorators();
     }
 
@@ -117,6 +132,7 @@ class Bootstrap_Form extends Zend_Form
     {
         foreach ($this->getSubForms() as $sf) {
             $sf->setElementDefaultDecorators();
+            $sf->setDecorators($this->getGroupDecorators());
         }
         foreach ($this->getElements() as $el) {
             if(in_array($el->getName(),$this->getCustomDecorators()) ){
@@ -126,6 +142,9 @@ class Bootstrap_Form extends Zend_Form
             switch ($el->helper) {
                 case 'formSubmit':
                 case 'formReset':
+                    $el->setDecorators($this->getSubmitDecorators());
+                    break;
+                case 'formButton':
                     $el->setDecorators($this->getButtonDecorators());
                     break;
                 case 'formRadio':
@@ -154,6 +173,10 @@ class Bootstrap_Form extends Zend_Form
             }
             $group->setDecorators($this->getGroupDecorators());
         }
+    }
+    
+    public function getFormDecorators() {
+        return unserialize(serialize($this->_formDecorators));
     }
 
     public function setCustomDecorators($customDecorators) {
@@ -186,6 +209,10 @@ class Bootstrap_Form extends Zend_Form
 
     public function getButtonDecorators() {
         return unserialize(serialize($this->_buttonDecorators));
+    }
+    
+    public function getSubmitDecorators() {
+        return unserialize(serialize($this->_submitDecorators));
     }
 
     public function setFileDecorators($fileDecorators) {
