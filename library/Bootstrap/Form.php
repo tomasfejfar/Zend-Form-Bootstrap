@@ -33,7 +33,6 @@ class Bootstrap_Form extends Zend_Form
     public function __construct($options = null)
     {
         $this->setAttrib('class', 'form-horizontal');
-
         $this->initDefaultDecorators();
 
         parent::__construct($options);
@@ -163,7 +162,12 @@ class Bootstrap_Form extends Zend_Form
                     $el->setDecorators(array('ViewHelper'));
                     break;
                 default:
-                    $el->setDecorators($this->getDefaultElementDecorators());
+                    $methodName = 'get' . str_replace('_', '', get_class($el)) . 'Decorators';
+                    if (method_exists($this, $methodName)) {
+                        $el->setDecorators($this->$methodName());
+                    } else {
+                        $el->setDecorators($this->getDefaultElementDecorators());
+                    }
                     break;
             }
         }
