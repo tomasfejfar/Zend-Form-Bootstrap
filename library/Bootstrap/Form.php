@@ -159,7 +159,9 @@ class Bootstrap_Form extends Zend_Form
                 case 'formFile':
                     $el->setDecorators($this->getFileDecorators());
                     break;
-
+                case 'formHidden':
+                    $el->setDecorators(array('ViewHelper'));
+                    break;
                 default:
                     $el->setDecorators($this->getDefaultElementDecorators());
                     break;
